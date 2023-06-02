@@ -20,23 +20,33 @@ namespace ForgottenAdventuresDPSConverter.Core.Services
 
         public async Task<FAFolderUpdateReport> UpdateFolders(string folderPath)
         {
+            const string directoryDoesNotExistMessage = "the given directory does not exist";
+            const string successfullyFinishedMessage = "updating ran to completion";
+
             Console.Write('.');//todo: remove with some other means of keeping track on if things keep happening
+
+            FAFolderUpdateReport report = new();
 
             if (Directory.Exists(folderPath) == false)
             {
-                return null;
+                report.Message = directoryDoesNotExistMessage;
+                return report;
             }
 
             int folderPathStartLength = folderPath.Length; //saves the folderPath length to remove to split the relative folder path off.
 
             Dictionary<string, int> existingPathsAndIds = await GetDictionaryWithExistingPathsAndIds();
 
-            FAFolderUpdateReport report = new();
             List<Task> updateTasks = new();
 
             updateTasks.Add(Task.Run(async () => await updateSubfolder(folderPath, null)));
 
-            await Task.WhenAll(updateTasks);
+            while(updateTasks.Count > 0)
+            {
+                await updateTasks[0];
+                updateTasks.RemoveAt(0);
+            }
+            Console.WriteLine();//todo: remove and replace with some other means of keeping track on if things keep happening
 
             if(existingPathsAndIds.Count > 0)
             {
@@ -46,6 +56,7 @@ namespace ForgottenAdventuresDPSConverter.Core.Services
                 }
             }
 
+            report.Message = successfullyFinishedMessage;
             return report;
 
             async Task updateSubfolder(string folderPath, int? parentId)
