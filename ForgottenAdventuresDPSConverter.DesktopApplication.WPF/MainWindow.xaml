@@ -1,0 +1,53 @@
+﻿<Window x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Column="0" Grid.Row="0">
+            <MenuItem Header="_Forgotten Adventures Folder">
+                <MenuItem Header="_All" Click="FAFolderAll_Click"/>
+                <Separator/>
+                <MenuItem Header="_Without Number" Click="FAFolderWithoutNumber_Click"/>
+                <MenuItem Header="_Without Folder" Click="FAFolderWithoutFolder_Click"/>
+                <MenuItem Header="_Without Subfolder" Click="FAFolderWithoutSubfolder_Click"/>
+                <Separator/>
+                <MenuItem Header="_Search" Click="FAFolderSearch_Click"/>
+            </MenuItem>
+            <MenuItem Header="_DPS number">
+                <MenuItem Header="_All" Click="DpsNumberAll_Click"/>
+                <!--<Separator/>
+                <MenuItem Header="_Search"/>-->
+            </MenuItem>
+            <MenuItem Header="_DPS folder">
+                <MenuItem Header="_All"/>
+                <Separator/>
+                <MenuItem Header="_Search"/>
+            </MenuItem>
+            <MenuItem Header="_DPS subfolder">
+                <MenuItem Header="_All"/>
+                <Separator/>
+                <MenuItem Header="_Search"/>
+            </MenuItem>
+            <MenuItem Header="Settings" Click="Settings_Click">
+                
+            </MenuItem>
+        </Menu>
+
+        <Frame x:Name="mainFrame" Grid.Row="1" Grid.Column="0" NavigationUIVisibility="Hidden"/>
+        
+        <!-- todo: bottom bar with progress bar and notes on what longer task is being performed that should lock the rest of the program until the progress is done -->
+    </Grid>
+</Window>

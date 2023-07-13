@@ -14,57 +14,123 @@ namespace ForgottenAdventuresDPSConverter.ConsoleApp
             IServiceProvider services = SetupDependencies(new ServiceCollection());
 
             ///*
-            IFAFolderReader reader = services.GetRequiredService<IFAFolderReader>();
-            IHTMLConverter htmlConverter = services.GetRequiredService<IHTMLConverter>();
+            IFAFolderService reader = services.GetRequiredService<IFAFolderService>();
+            IHtmlConverter htmlConverter = services.GetRequiredService<IHtmlConverter>();
             IRepository<FAFolder> repository = services.GetRequiredService<IRepository<FAFolder>>();
 
             Console.WriteLine("write path to the master folder");
             string? folderPath = Console.ReadLine();
+            
+            
+
             if(folderPath != null)
             {
-                //FAFolderUpdateReport report = reader.UpdateFolders(folderPath).Result;
+                ProgressBar progressBar = new(Console.GetCursorPosition(), 200);
+                Progress<double> progress = new(progressBar.Report);
 
-                FAFolderUpdateReport result = reader.UpdateFolders(folderPath).Result;
-                Console.WriteLine(result.ToString(repository));
+                Console.WriteLine("\r\ntest line");
+
+                FAFolderUpdateReport result = reader.UpdateFolders(folderPath, progress).Result;
+                Console.WriteLine(result.Summery());
             }
             Console.WriteLine("done");
 
-            /*
-            Console.WriteLine("the subfolders are");
-            foreach(FAFolder folder in subfolders)
-            {
-                Console.Write(folder.Name +"\r\n");
-            }
-            */
-
-            htmlConverter.FAHTMLConvert(new List<FAFolder>(repository.GetAll().Result), @"C:\Users\Octavia\Desktop\FAtable.html");
-            //*/
-            /*
-           IWallConverter wallConverter = services.GetService<IWallConverter>();
-
-           Console.WriteLine("write path to the wall image to crop into a wall");
-           string? filePath = Console.ReadLine();
-           Console.WriteLine("write path to where and with what name the new wall should be saved");
-           string? wallPath = Console.ReadLine();
-           Console.WriteLine(filePath + "will be converted to a wall as " + wallPath);
-           Console.WriteLine("conversion was successful: " + wallConverter.ConvertWall(filePath, wallPath).Result);
-            */
-
-            //WallsConverter.ConvertAllWalls(services.GetRequiredService<IWallConverter>());
+            Console.Read();
+            htmlConverter.FAHtmlConvert(new List<FAFolder>(repository.GetAll().Result), @"C:\Users\Octavia\Desktop\FAtable.html");
         }
 
         static IServiceProvider SetupDependencies(IServiceCollection services)
         {
-            services.AddScoped<IFAFolderReader, FolderReader>();
-            services.AddScoped<IWallConverter, WallConverter>();
-            services.AddScoped<IHTMLConverter, HTMLConverter>();
+            services
+                .AddScoped<IDpsFolderService, DpsFolderService>()
+                .AddScoped<IDpsNumberService, DpsNumberService>()
+                .AddScoped<IDpsSubfolderService, DpsSubfolderService>()
+                .AddScoped<IFAFolderService, FAFolderService>()
+                .AddScoped<IHtmlConverter, HtmlConverter>()
+                .AddScoped<IWallConverter, WallConverter>();
 
-            services.AddScoped<IRepository<FAFolder>, ForgottenAdventuresDPSConverter.FileRepository.FAFolderRepository>();
-            services.AddScoped<IFileRepositorySettings, FileRepositorySettings>();
+            services
+                .AddScoped<IFileRepositorySettings, FileRepositorySettings>()
+                .AddScoped<IRepository<DpsFolder>, ForgottenAdventuresDPSConverter.FileRepository.DpsFolderFileRepository>()
+                .AddScoped<IRepository<DpsNumber>, ForgottenAdventuresDPSConverter.FileRepository.DpsNumberFileRepository>()
+                .AddScoped<IRepository<DpsSubfolder>, ForgottenAdventuresDPSConverter.FileRepository.DpsSubfolderFileRepository>()
+                .AddScoped<IRepository<FAFolder>, ForgottenAdventuresDPSConverter.FileRepository.FAFolderFileRepository>();
 
             //services.AddDbContext<FATrackerDbContext>();
 
             return services.BuildServiceProvider();
         }
+
+        class ProgressBar : IProgress<double>
+        {
+            private const char loaded = '*';
+            private const char notLoaded = '-';
+            private const int defaultLength = 30;
+
+            private readonly int cursorPositionLeft;
+            private readonly int cursorPositionTop;
+            private readonly int length;
+
+            private double maxNLoaded = 0;
+
+            public ProgressBar((int, int) cursorPosition, int length)
+            {
+                this.cursorPositionLeft = cursorPosition.Item1;
+                this.cursorPositionTop = cursorPosition.Item2;
+                this.length = length;
+
+                maxNLoaded = maxNLoaded - 1;
+                Report(0);
+            }
+
+            public ProgressBar((int, int) cursorPosition)
+            {
+                this.cursorPositionLeft = cursorPosition.Item1;
+                this.cursorPositionTop = cursorPosition.Item2;
+                this.length = defaultLength;
+
+                maxNLoaded = maxNLoaded - 1;
+                Report(0);
+            }
+
+            public void Report(double value)
+            {
+                int nLoaded = (int)Math.Round(value * length);
+                if(nLoaded <= maxNLoaded)
+                {
+                    return;
+                }
+                maxNLoaded = Math.Max(nLoaded, maxNLoaded);
+
+                (int, int) cursorPosition = Console.GetCursorPosition();
+
+                string barString = string.Empty;
+                for (int i = 1; i <= length; i++)
+                {
+                    if (i <= nLoaded)
+                    {
+                        barString += loaded;
+                    }
+                    else
+                    {
+                        barString += notLoaded;
+                    }
+                }
+
+                if (nLoaded >= maxNLoaded)
+                {
+                    maxNLoaded = Math.Max(nLoaded, maxNLoaded);
+
+                    lock (this)
+                    {
+                        Console.SetCursorPosition(cursorPositionLeft, cursorPositionTop);
+                        Console.Write(barString);
+                        Console.SetCursorPosition(cursorPosition.Item1, cursorPosition.Item2);
+                    }
+                    
+                }
+            }
+        }
+
     }
 }

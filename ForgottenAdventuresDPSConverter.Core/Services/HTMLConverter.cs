@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ForgottenAdventuresDPSConverter.Core.Services
 {
-    public class HTMLConverter : IHTMLConverter
+    public class HtmlConverter : IHtmlConverter
     {
-        public void FAHTMLConvert(List<FAFolder> folders, string targetPath)
+        public void FAHtmlConvert(List<FAFolder> folders, string targetPath)
         {
             if (File.Exists(targetPath))
                 return;
@@ -126,7 +126,7 @@ namespace ForgottenAdventuresDPSConverter.Core.Services
             while(ID != null)
             {
                 FAFolder folder = folders.First(folder => folder.Id == ID);
-                if (!string.IsNullOrEmpty(returnString))
+                if (!string.IsNullOrWhiteSpace(returnString))
                 {
                     returnString = indicator + returnString;
                 }

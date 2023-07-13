@@ -3,7 +3,7 @@ using ForgottenAdventuresDPSConverter.Core.Interfaces;
 
 namespace ForgottenAdventuresDPSConverter.FileRepository
 {
-    public class FAFolderRepository : Repository<FAFolder>
+    public class FAFolderFileRepository : FileRepository<FAFolder>
     {
         #region id of elements within a split line
         private const int folderName = 1;
@@ -14,12 +14,15 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
         private const int folderFolderId = 6;
         private const int folderSubfolderId = 7;
         private const int folderIsFloor = 8;
-        private const int folderOtherCommands = 9;
-        private const int folderCommands = 10;
-        private const int folderNotes = 11;
+        private const int folderInParentInnerFolder = 9;
+        private const int folderCustomInnerFolderName = 10;
+        private const int folderCustomInnerFolderNameString = 11;
+        private const int folderOtherCommands = 12;
+        private const int folderCommands = 13;
+        private const int folderNotes = 14;
         #endregion
         
-        public FAFolderRepository(IFileRepositorySettings settings) : base(settings.FAFolderRepositoryFilePath, settings) { }
+        public FAFolderFileRepository(IFileRepositorySettings settings) : base(settings.FAFolderRepositoryFilePath, settings) { }
 
         protected override string CreateEntityLine(FAFolder folder)
         {
@@ -61,6 +64,9 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
                 stringParts.Add(folderSubfolderId, folder.SubfolderId.ToString());
             }
             stringParts.Add(folderIsFloor, folder.IsFloor.ToString());
+            stringParts.Add(folderInParentInnerFolder, folder.InParentInnerFolder.ToString());
+            stringParts.Add(folderCustomInnerFolderName, folder.CustomInnerFolderName.ToString());
+            stringParts.Add(folderCustomInnerFolderNameString, folder.CustomInnerFolderNameString);
             stringParts.Add(folderOtherCommands, folder.OtherCommands.ToString());
             stringParts.Add(folderCommands, folder.Commands);
             stringParts.Add(folderNotes, folder.Notes);
@@ -273,11 +279,19 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
             }
             if (bool.TryParse(lineSplit[folderIsFloor], out bool isFloor) == false)
             {
-                throw new FormatException("the FA folder IsFloor could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or folderId was changed compared to the repository");
+                throw new FormatException("the FA folder IsFloor could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or the id for  folderIsFloor was changed compared to the repository");
+            }
+            if (bool.TryParse(lineSplit[folderInParentInnerFolder], out bool inParentInnerFolder) == false)
+            {
+                throw new FormatException("the FA folder InParentFolder could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or the id for  folderInParentInnerFolder was changed compared to the repository");
+            }
+            if (bool.TryParse(lineSplit[folderCustomInnerFolderName], out bool customInnerFolderName) == false)
+            {
+                throw new FormatException("the FA folder CustomInnerFolderName could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or the id for  folderCustomInnerFolderName was changed compared to the repository");
             }
             if (bool.TryParse(lineSplit[folderOtherCommands], out bool otherCommands) == false)
             {
-                throw new FormatException("the FA folder OtherCommands could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or folderId was changed compared to the repository");
+                throw new FormatException("the FA folder IsFloor could not be parsed, this means either bad data was put into the repository, someone changed data by hand (which they should never do), or the id for  folderIsFloor was changed compared to the repository");
             }
 
             return new FAFolder()
@@ -291,6 +305,9 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
                 FolderId = dpsFolderIdNullable,
                 SubfolderId = subfolderIdNullable,
                 IsFloor = isFloor,
+                InParentInnerFolder = inParentInnerFolder,
+                CustomInnerFolderName = customInnerFolderName,
+                CustomInnerFolderNameString = lineSplit[folderCustomInnerFolderNameString],
                 OtherCommands = otherCommands,
                 Commands = lineSplit[folderCommands],
                 Notes = lineSplit[folderNotes]

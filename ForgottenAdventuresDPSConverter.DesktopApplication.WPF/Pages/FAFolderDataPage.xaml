@@ -1,0 +1,55 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages"
+      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolderDataPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="FAFolderDataPage">
+    <Page.DataContext>
+        <ViewModels:FAFoldersViewModel/>
+    </Page.DataContext>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/><!--00-->
+            <RowDefinition Height="auto"/><!--01-->
+            <RowDefinition Height="auto"/><!--02-->
+            <RowDefinition Height="auto"/><!--03-->
+            <RowDefinition Height="auto"/><!--04-->
+            <RowDefinition Height="auto"/><!--05-->
+            <RowDefinition Height="auto"/><!--06-->
+            <RowDefinition Height="auto"/><!--07-->
+            <RowDefinition Height="auto"/><!--08-->
+            <RowDefinition Height="auto"/><!--09-->
+            <RowDefinition Height="auto"/><!--10-->
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2"  Grid.Row="0" Text="Name:"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="1" Text="{Binding SelectedFolder.Name}" IsEnabled="{Binding EditBasicData}"/>
+        <TextBlock Grid.ColumnSpan="2"  Grid.Row="2" Text="Relative path:"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="3" Text="{Binding SelectedFolder.RelativePath}" IsEnabled="{Binding EditBasicData}"/>
+        <CheckBox                       Grid.Row="4" IsChecked="{Binding SelectedFolder.HasItems}" IsEnabled="{Binding EditBasicData}"/>
+        <TextBlock Grid.Column="1"      Grid.Row="4" Text="has items"/>
+        <CheckBox                       Grid.Row="5" IsChecked="{Binding EditBasicData}"/>
+        <TextBlock Grid.Column="1"      Grid.Row="5" Text="edit basic data (not recommended)"/>
+        <CheckBox                       Grid.Row="6" IsChecked="{Binding SelectedFolder.IsFloor}"/>
+        <TextBlock Grid.Column="1"      Grid.Row="6" Text="content is floor textures"/>
+        <CheckBox                       Grid.Row="7" IsChecked="{Binding SelectedFolder.IsFloor}"/>
+        <TextBlock Grid.Column="1"      Grid.Row="7" Text="place in parent inner folder"/>
+        <CheckBox                       Grid.Row="8" IsChecked="{Binding SelectedFolder.IsFloor}"/>
+        <TextBlock Grid.Column="1"      Grid.Row="8" Text="custom inner folder name"/>
+        <TextBlock Grid.ColumnSpan="2"  Grid.Row="9" Text="custom inner folder name:"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="10" Text="{Binding SelectedFolder.CustomInnerFolderNameString}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+        <TextBlock Grid.ColumnSpan="2"  Grid.Row="9" Text="Notes:"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="10" Text="{Binding SelectedFolder.Notes}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+        <!-- todo: add commands for things like walls -->
+        <Button Grid.ColumnSpan="2"     Grid.Row="11" Content="Save" Click="SaveFolder" />
+    </Grid>
+</Page>

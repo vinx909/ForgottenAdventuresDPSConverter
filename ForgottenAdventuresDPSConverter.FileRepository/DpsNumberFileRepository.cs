@@ -3,20 +3,22 @@ using ForgottenAdventuresDPSConverter.Core.Interfaces;
 
 namespace ForgottenAdventuresDPSConverter.FileRepository
 {
-    internal class DpsNumberRepository : Repository<DpsNumber>
+    public class DpsNumberFileRepository : FileRepository<DpsNumber>
     {
         #region id of elements within a split line
         private const int numberNumber = 1;
-        private const int numberDescription = 2;
+        private const int numberName = 2;
+        private const int numberDescription = 3;
         #endregion
 
-        public DpsNumberRepository(IFileRepositorySettings settings) : base(settings.DpsNumberRepositoryFilePath, settings) { }
+        public DpsNumberFileRepository(IFileRepositorySettings settings) : base(settings.DpsNumberRepositoryFilePath, settings) { }
 
         protected override string CreateEntityLine(DpsNumber number)
         {
             Dictionary<int, string> stringParts = new Dictionary<int, string>();
             stringParts.Add(id, number.Id.ToString());
             stringParts.Add(numberNumber, number.Number.ToString());
+            stringParts.Add(numberName, number.Name);
             stringParts.Add(numberDescription, number.Description);
 
             string returnString = string.Empty;
@@ -101,6 +103,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
             {
                 Id = numberId,
                 Number = number,
+                Name = lineSplit[numberName],
                 Description = lineSplit[numberDescription]
             };
         }

@@ -26,7 +26,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
         private readonly string filePath;
         private readonly Mock<IFileRepositorySettings> mockSettings;
 
-        private FileRepository.FAFolderRepository sut;
+        private FileRepository.FAFolderFileRepository sut;
 
         public FAFolderRepository()
         {
@@ -52,7 +52,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            sut = new FileRepository.FAFolderRepository(mockSettings.Object);
+            sut = new FileRepository.FAFolderFileRepository(mockSettings.Object);
 
             //assert
             Assert.True(File.Exists(filePath));
@@ -75,7 +75,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            new FileRepository.FAFolderRepository(mockSettings.Object);
+            new FileRepository.FAFolderFileRepository(mockSettings.Object);
 
             //assert
         }
@@ -94,7 +94,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            Action action = () => { sut = new FileRepository.FAFolderRepository(mockSettings.Object); };
+            Action action = () => { sut = new FileRepository.FAFolderFileRepository(mockSettings.Object); };
 
             //assert
             Assert.ThrowsAny<Exception>(action);
@@ -114,7 +114,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            Action action = () => { sut = new FileRepository.FAFolderRepository(mockSettings.Object); };
+            Action action = () => { sut = new FileRepository.FAFolderFileRepository(mockSettings.Object); };
 
             //assert
             InvalidDataException exception = Assert.Throws<InvalidDataException>(action);
@@ -134,7 +134,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            Action action = () => { sut = new FileRepository.FAFolderRepository(mockSettings.Object); };
+            Action action = () => { sut = new FileRepository.FAFolderFileRepository(mockSettings.Object); };
 
             //assert
             Assert.ThrowsAny<Exception>(action);
@@ -154,7 +154,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
 
             //act
-            Action action = () => { sut = new FileRepository.FAFolderRepository(mockSettings.Object); };
+            Action action = () => { sut = new FileRepository.FAFolderFileRepository(mockSettings.Object); };
 
             //assert
             InvalidDataException exception = Assert.Throws<InvalidDataException>(action);

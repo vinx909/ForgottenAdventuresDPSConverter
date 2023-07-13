@@ -3,7 +3,7 @@ using ForgottenAdventuresDPSConverter.Core.Interfaces;
 
 namespace ForgottenAdventuresDPSConverter.FileRepository
 {
-    public abstract class Repository<T> : IRepository<T> where T : IdEntity
+    public abstract class FileRepository<T> : IRepository<T> where T : IdEntity
     {
         //temp file creation designed with help from https://www.daveoncsharp.com/2009/09/how-to-use-temporary-files-in-csharp/
 
@@ -26,7 +26,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
         private const int firstLineExplainText = 2;
         #endregion
 
-        public Repository(string filePath, IFileRepositorySettings settings)
+        public FileRepository(string filePath, IFileRepositorySettings settings)
         {
             this.filePath = filePath;
             this.repositoryFactory = settings;

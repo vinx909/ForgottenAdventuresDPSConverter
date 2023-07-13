@@ -16,6 +16,9 @@ namespace ForgottenAdventuresDPSConverter.Core.Entities
         public int? FolderId { get; set; }
         public int? SubfolderId { get; set; }
         public bool IsFloor { get; set; }
+        public bool InParentInnerFolder { get; set; }
+        public bool CustomInnerFolderName { get; set; }
+        public string CustomInnerFolderNameString { get; set; }
         public bool OtherCommands { get; set; }
         public string Commands { get; set; }
         public string Notes { get; set; }
@@ -23,6 +26,7 @@ namespace ForgottenAdventuresDPSConverter.Core.Entities
         {
             Name = string.Empty;
             RelativePath = string.Empty;
+            CustomInnerFolderNameString = string.Empty;
             Commands = string.Empty;
             Notes = string.Empty;
         }
@@ -40,6 +44,9 @@ namespace ForgottenAdventuresDPSConverter.Core.Entities
                 FolderId = FolderId,
                 SubfolderId = SubfolderId,
                 IsFloor = IsFloor,
+                InParentInnerFolder = InParentInnerFolder,
+                CustomInnerFolderName = CustomInnerFolderName,
+                CustomInnerFolderNameString = CustomInnerFolderNameString,
                 OtherCommands = OtherCommands,
                 Commands = Commands,
                 Notes = Notes

@@ -11,25 +11,90 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
     public class FileRepositorySettings : IFileRepositorySettings
     {
         private const string directoryPath = @"C:\Users\Octavia\Desktop\";
-        private const string DpsFolderRepositoryFileName = "Temp_ForgottenAdventuresDPSConverter_File_Repository_DpsFolders.fac";
-        private const string DpsNumbersRepositoryFileName = "Temp_ForgottenAdventuresDPSConverter_File_Repository_DpsNumbers.fac";
-        private const string DpsSubfolderRepositoryFileName = "Temp_ForgottenAdventuresDPSConverter_File_Repository_DpsSubfolders.fac";
-        private const string FAFolderRepositoryFileName = "Temp_ForgottenAdventuresDPSConverter_File_Repository_FAFolders.fac";
+        public virtual string DirectoryPath => directoryPath;
 
-        public string DpsFolderRepositoryFilePath => directoryPath + DpsFolderRepositoryFileName;
+        private const string DpsFolderRepositoryFileName = "ForgottenAdventuresDPSConverter_File_Repository_DpsFolders.fac";
+        private const string DpsNumbersRepositoryFileName = "ForgottenAdventuresDPSConverter_File_Repository_DpsNumbers.fac";
+        private const string DpsSubfolderRepositoryFileName = "ForgottenAdventuresDPSConverter_File_Repository_DpsSubfolders.fac";
+        private const string FAFolderRepositoryFileName = "ForgottenAdventuresDPSConverter_File_Repository_FAFolders.fac";
 
-        public string DpsNumberRepositoryFilePath => directoryPath + DpsNumbersRepositoryFileName;
+        private readonly IServiceProvider serviceProvider;
 
-        public string DpsSubfolderRepositoryFilePath => directoryPath + DpsSubfolderRepositoryFileName;
+        public FileRepositorySettings(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+        }
 
-        public string FAFolderRepositoryFilePath => directoryPath + FAFolderRepositoryFileName;
+        public string DpsFolderRepositoryFilePath => DirectoryPath + DpsFolderRepositoryFileName;
 
-        public Repository<DpsFolder> DpsFolderRepository => new DpsFolderRepository(this);
+        public string DpsNumberRepositoryFilePath => DirectoryPath + DpsNumbersRepositoryFileName;
 
-        public Repository<DpsNumber> DpsNumberRepository => new DpsNumberRepository(this);
+        public string DpsSubfolderRepositoryFilePath => DirectoryPath + DpsSubfolderRepositoryFileName;
 
-        public Repository<DpsSubfolder> DpsSubfolderRepository => new DpsSubfolderRepository(this);
+        public string FAFolderRepositoryFilePath => DirectoryPath + FAFolderRepositoryFileName;
 
-        public Repository<FAFolder> FAFolderRepository => new FAFolderRepository(this);
+        public FileRepository<DpsNumber> DpsFolderRepository
+        {
+            get
+            {
+                FileRepository<DpsNumber>? repository = serviceProvider.GetService(typeof(IRepository<DpsNumber>)) as FileRepository<DpsNumber>;
+                if (repository == null)
+                {
+                    throw new NotSupportedException("if you use ForgottenAdventuresDpsConverter.FileRepository as the repository then all repositories must be from there and the service IRepository<DpsFolder> must provide a type of Repository<DpsFolder>");
+                }
+                else
+                {
+                    return repository;
+                }
+            }
+        }
+
+        public FileRepository<DpsNumber> DpsNumberRepository
+        {
+            get
+            {
+                FileRepository<DpsNumber>? repository = serviceProvider.GetService(typeof(IRepository<DpsNumber>)) as FileRepository<DpsNumber>;
+                if (repository == null)
+                {
+                    throw new NotSupportedException("if you use ForgottenAdventuresDpsConverter.FileRepository as the repository then all repositories must be from there and the service IRepository<DpsNumber> must provide a type of Repository<DpsNumber>");
+                }
+                else
+                {
+                    return repository;
+                }
+            }
+        }
+
+        public FileRepository<DpsFolder> DpsSubfolderRepository
+        {
+            get
+            {
+                FileRepository<DpsFolder>? repository = serviceProvider.GetService(typeof(IRepository<DpsFolder>)) as FileRepository<DpsFolder>;
+                if (repository == null)
+                {
+                    throw new NotSupportedException("if you use ForgottenAdventuresDpsConverter.FileRepository as the repository then all repositories must be from there and the service IRepository<DpsSubfolder> must provide a type of Repository<DpsSubfolder>");
+                }
+                else
+                {
+                    return repository;
+                }
+            }
+        }
+
+        public FileRepository<FAFolder> FAFolderRepository
+        {
+            get
+            {
+                FileRepository<FAFolder>? repository = serviceProvider.GetService(typeof(IRepository<FAFolder>)) as FileRepository<FAFolder>;
+                if (repository == null)
+                {
+                    throw new NotSupportedException("if you use ForgottenAdventuresDpsConverter.FileRepository as the repository then all repositories must be from there and the service IRepository<FAFolder> must provide a type of Repository<FAFolder>");
+                }
+                else
+                {
+                    return repository;
+                }
+            }
+        }
     }
 }

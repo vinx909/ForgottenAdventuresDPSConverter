@@ -3,14 +3,14 @@ using ForgottenAdventuresDPSConverter.Core.Interfaces;
 
 namespace ForgottenAdventuresDPSConverter.FileRepository
 {
-    internal class DpsSubfolderRepository : Repository<DpsSubfolder>
+    public class DpsSubfolderFileRepository : FileRepository<DpsSubfolder>
     {
         #region id of elements within a split line
         private const int subfolderName = 1;
         private const int subfolderDescription = 2;
         #endregion
 
-        public DpsSubfolderRepository(IFileRepositorySettings settings) : base(settings.DpsSubfolderRepositoryFilePath, settings) { }
+        public DpsSubfolderFileRepository(IFileRepositorySettings settings) : base(settings.DpsSubfolderRepositoryFilePath, settings) { }
 
         protected override string CreateEntityLine(DpsSubfolder subfolder)
         {
