@@ -28,7 +28,14 @@
             <RowDefinition Height="auto"/><!--07-->
             <RowDefinition Height="auto"/><!--08-->
             <RowDefinition Height="auto"/><!--09-->
-            <RowDefinition Height="auto"/><!--10-->
+            <RowDefinition Height="auto"/>
+            <!--10-->
+            <RowDefinition Height="auto"/>
+            <!--11-->
+            <RowDefinition Height="auto"/>
+            <!--12-->
+            <RowDefinition Height="auto"/>
+            <!--13-->
         </Grid.RowDefinitions>
 
         <TextBlock Grid.ColumnSpan="2"  Grid.Row="0" Text="Name:"/>
@@ -41,15 +48,15 @@
         <TextBlock Grid.Column="1"      Grid.Row="5" Text="edit basic data (not recommended)"/>
         <CheckBox                       Grid.Row="6" IsChecked="{Binding SelectedFolder.IsFloor}"/>
         <TextBlock Grid.Column="1"      Grid.Row="6" Text="content is floor textures"/>
-        <CheckBox                       Grid.Row="7" IsChecked="{Binding SelectedFolder.IsFloor}"/>
+        <CheckBox                       Grid.Row="7" IsChecked="{Binding SelectedFolder.InParentInnerFolder}"/>
         <TextBlock Grid.Column="1"      Grid.Row="7" Text="place in parent inner folder"/>
-        <CheckBox                       Grid.Row="8" IsChecked="{Binding SelectedFolder.IsFloor}"/>
+        <CheckBox                       Grid.Row="8" IsChecked="{Binding SelectedFolder.CustomInnerFolderName}"/>
         <TextBlock Grid.Column="1"      Grid.Row="8" Text="custom inner folder name"/>
         <TextBlock Grid.ColumnSpan="2"  Grid.Row="9" Text="custom inner folder name:"/>
-        <TextBox Grid.ColumnSpan="2"    Grid.Row="10" Text="{Binding SelectedFolder.CustomInnerFolderNameString}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
-        <TextBlock Grid.ColumnSpan="2"  Grid.Row="9" Text="Notes:"/>
-        <TextBox Grid.ColumnSpan="2"    Grid.Row="10" Text="{Binding SelectedFolder.Notes}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="10" Text="{Binding SelectedFolder.CustomInnerFolderNameString}"/>
+        <TextBlock Grid.ColumnSpan="2"  Grid.Row="11" Text="Notes:"/>
+        <TextBox Grid.ColumnSpan="2"    Grid.Row="12" Text="{Binding SelectedFolder.Notes}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
         <!-- todo: add commands for things like walls -->
-        <Button Grid.ColumnSpan="2"     Grid.Row="11" Content="Save" Click="SaveFolder" />
+        <Button Grid.ColumnSpan="2"     Grid.Row="13" Content="Save" Click="SaveFolder" />
     </Grid>
 </Page>

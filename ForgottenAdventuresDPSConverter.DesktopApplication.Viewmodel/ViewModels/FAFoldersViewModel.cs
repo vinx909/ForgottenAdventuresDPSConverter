@@ -1,6 +1,7 @@
 ﻿using ForgottenAdventuresDPSConverter.Core.Entities;
 using ForgottenAdventuresDPSConverter.Core.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Entities;
+using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,13 +17,14 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
 {
     public class FAFoldersViewModel : BaseViewModel
     {
-        private const string baseFolderPath = @"C:\Users\Octavia\Downloads\FA_Mapmaking_Pack_2023-05-31"; //todo: change so this path is retreived from somewhere and not hardcoded
         private const char searchSplitChar = ' ';
 
         private readonly IFAFolderService folderService;
         private readonly IDpsNumberService dpsNumberService;
         private readonly IDpsFolderService dpsFolderService;
         private readonly IDpsSubfolderService dpsSubfolderService;
+
+        private readonly ISettingsGetter settings;
 
         public void SaveFolder()
         {
@@ -158,12 +160,13 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
             FoundSubfolders.Add(new() { Id = null, Name = "none selected", Description = "the item to select if no number is to be selected" });
         }
 
-        public FAFoldersViewModel(IFAFolderService FAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService) : this()
+        public FAFoldersViewModel(IFAFolderService FAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService, ISettingsGetter settings) : this()
         {
             this.folderService = FAFolderService;
             this.dpsNumberService = dpsNumberService;
             this.dpsFolderService = dpsFolderService;
             this.dpsSubfolderService = dpsSubfolderService;
+            this.settings = settings;
             UpdateNumbers();
         }
 
@@ -342,7 +345,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
         public void UpdateSelectedFolderImages()
         {
             SelectedFolderImagesPaths.Clear();
-            foreach (string filePath in Directory.EnumerateFiles(baseFolderPath + SelectedFolder.RelativePath))
+            foreach (string filePath in Directory.EnumerateFiles(settings.FADownloadFolderPath + SelectedFolder.RelativePath))
             {
                 SelectedFolderImagesPaths.Add(filePath);
             }

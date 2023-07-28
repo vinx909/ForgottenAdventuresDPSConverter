@@ -1,5 +1,6 @@
 ﻿using ForgottenAdventuresDPSConverter.Core.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Entities;
+using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,11 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
     {
         private readonly FAFoldersViewModel viewModel;
 
-        public FAFolderPage(IFAFolderService fAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService)
+        public FAFolderPage(IFAFolderService fAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService, ISettingsGetter settings)
         {
             InitializeComponent();
 
-            viewModel = new(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService);
+            viewModel = new(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService, settings);
             DataContext = viewModel;
 
             dataFrame.Content = new FAFolderDataPage(viewModel);

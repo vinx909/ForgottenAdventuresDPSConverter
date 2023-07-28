@@ -1,4 +1,5 @@
 ﻿using ForgottenAdventuresDPSConverter.Core.Interfaces;
+using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages;
 using ForgottenAdventuresDPSConverter.FileRepository;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,7 +90,8 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
                     IDpsNumberService? dpsNumberService = serviceProvider.GetService<IDpsNumberService>();
                     IDpsFolderService? dpsFolderService = serviceProvider.GetService<IDpsFolderService>();
                     IDpsSubfolderService? dpsSubfolderService = serviceProvider.GetService<IDpsSubfolderService>();
-                    fAFolderPage = new FAFolderPage(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService);
+                    ISettingsGetter? settings = serviceProvider.GetService<ISettingsGetter>();
+                    fAFolderPage = new FAFolderPage(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService, settings);
                 }
                 return fAFolderPage;
             } 
@@ -112,7 +114,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
             {
                 if(settingsPage == null)
                 {
-                    settingsPage = new(serviceProvider.GetService<IFileRepositorySettings>());
+                    settingsPage = new(serviceProvider.GetService<IFileRepositorySettings>(), serviceProvider.GetService<IFAFolderService>());
                 }
                 return settingsPage;
             }

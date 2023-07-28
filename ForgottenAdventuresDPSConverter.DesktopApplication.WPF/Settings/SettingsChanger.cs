@@ -125,5 +125,22 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Settings
                 return successful;
             }
         }
+
+        internal static bool ChangeDownloadFolderPath(string newDownloadFolderPath)
+        {
+            if (!newDownloadFolderPath.EndsWith('\\'))
+            {
+                newDownloadFolderPath += '\\';
+            }
+            if (!Directory.Exists(newDownloadFolderPath))
+            {
+                return false; //if the new given directory does not exist don't try to change it.
+            }
+
+            Properties.Settings.Default.FADownloadFolderPath = newDownloadFolderPath;
+            Properties.Settings.Default.Save();
+
+            return true;
+        }
     }
 }

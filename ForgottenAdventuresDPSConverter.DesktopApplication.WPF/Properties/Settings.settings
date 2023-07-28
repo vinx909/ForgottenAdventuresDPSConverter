@@ -5,5 +5,8 @@
     <Setting Name="RepositoryDirectoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\Octavia\Desktop\</Value>
     </Setting>
+    <Setting Name="FADownloadFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\Octavia\Downloads\FAMapmaking_Pack_july\FA_Mapmaking_Pack\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ForgottenAdventuresDPSConverter.Core.Reports
 {
-    public class FAFolderUpdateReport
+    public class FAFolderUpdateReport : ICloneable
     {
         private const string nextLine = "\r\n";
 
@@ -285,6 +285,39 @@ namespace ForgottenAdventuresDPSConverter.Core.Reports
                 updated.Count.ToString().PadLeft(padLength) + " folders updated. " +
                 Unaltered.Count.ToString().PadLeft(padLength) + " folders untouched. " +
                 noLongerExisting.Count.ToString().PadLeft(padLength) + " folders no longer existing.";
+        }
+
+        public object Clone()
+        {
+            FAFolderUpdateReport report = new FAFolderUpdateReport();
+
+            foreach(int addedId in Added)
+            {
+                report.Added.Add(addedId);
+            }
+            foreach (string failedToAdd in FailedToAdd)
+            {
+                report.FailedToAdd.Add(failedToAdd);
+            }
+            foreach (int failedToUpdateId in FailedToUpdate)
+            {
+                report.FailedToUpdate.Add(failedToUpdateId);
+            }
+            foreach (int noLongerExistingId in NoLongerExisting)
+            {
+                report.NoLongerExisting.Add(noLongerExistingId);
+            }
+            foreach (int unalteredId in Unaltered)
+            {
+                report.Unaltered.Add(unalteredId);
+            }
+            foreach (int UpdatedId in Updated)
+            {
+                report.Updated.Add(UpdatedId);
+            }
+            report.Message = Message;
+
+            return report;
         }
     }
 }

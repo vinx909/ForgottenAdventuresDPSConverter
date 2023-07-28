@@ -4,6 +4,7 @@ using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Settings;
 using ForgottenAdventuresDPSConverter.FileRepository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,10 +40,17 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
 
         private void UpdateForgottenAdventuresFolders(object sender, RoutedEventArgs e)
         {
-            if ((bool)updateFiles.IsChecked)
+            if ((bool)updateFiles.IsChecked && Directory.Exists(updateFilesPath.Text))
             {
-                IProgress<FAFolderUpdateReport> progressReport = new();
-                var updateReport = FAFolderService.UpdateFolders(updateFilesPath.Text, progressReport)
+                UpdateWindow updateWindow = new(FAFolderService);
+                
+                updateWindow.Show();
+
+                Task<FAFolderUpdateReport> reportTask = FAFolderService.UpdateFolders(updateFilesPath.Text, updateWindow, updateWindow);
+
+                SettingsChanger.ChangeDownloadFolderPath(updateFilesPath.Text);
+
+                //updateWindow.UpdateUpdatedWindow(reportTask.Result);
             }
         }
 

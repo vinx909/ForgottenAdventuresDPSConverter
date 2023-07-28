@@ -34,5 +34,17 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Properties {
                 this["RepositoryDirectoryPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Octavia\\Downloads\\FAMapmaking_Pack_july\\FA_Mapmaking_Pack\\")]
+        public string FADownloadFolderPath {
+            get {
+                return ((string)(this["FADownloadFolderPath"]));
+            }
+            set {
+                this["FADownloadFolderPath"] = value;
+            }
+        }
     }
 }

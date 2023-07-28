@@ -1,6 +1,7 @@
 ﻿using ForgottenAdventuresDPSConverter.Core.Entities;
 using ForgottenAdventuresDPSConverter.Core.Interfaces;
 using ForgottenAdventuresDPSConverter.Core.Services;
+using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Settings;
 using ForgottenAdventuresDPSConverter.FileRepository;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,9 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
                 .AddScoped<IFAFolderService, FAFolderService>()
                 .AddScoped<IHtmlConverter, HtmlConverter>()
                 .AddScoped<IWallConverter, WallConverter>();
+
+            services
+                .AddScoped<ISettingsGetter, SettingsGetter>();
 
             services
                 .AddScoped<IFileRepositorySettings, FileRepositorySettingsFromSettings>()

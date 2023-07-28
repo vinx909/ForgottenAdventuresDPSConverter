@@ -37,16 +37,32 @@ namespace ForgottenAdventuresDPSConverter.Core.Interfaces
         /// <returns>a task with an IEnumerable of DpsFolder with each folder</returns>
         public Task<IEnumerable<DpsFolder>> GetAll();
 
-        //todo: summary
+        /// <summary>
+        /// returns each DPSFolder where the Discription contains the given String
+        /// </summary>
+        /// <param name="descriptionPart">the string the will be searched for in the destription</param>
+        /// <returns>a task with an IEnumerable of DpsFolder with each folder with a match</returns>
         public Task<IEnumerable<DpsFolder>> GetAllWhereDescriptionContains(string descriptionPart);
 
-        //todo: summary
+        /// <summary>
+        /// returns each DPSFolder where the Discription contains any of the given Strings
+        /// </summary>
+        /// <param name="descriptionParts">the strings the will be searched for in the destription</param>
+        /// <returns>a task with an IEnumerable of DpsFolder with each folder with a match</returns>
         public Task<IEnumerable<DpsFolder>> GetAllWhereDescriptionContains(IEnumerable<string> descriptionParts);
-                                            
-        //todo: summary
+
+        /// <summary>
+        /// returns each DPSFolder where the Name contains the given String
+        /// </summary>
+        /// <param name="namePart">the string the will be searched for in the Names</param>
+        /// <returns>a task with an IEnumerable of DpsFolder with each folder with a match</returns>
         public Task<IEnumerable<DpsFolder>> GetAllWhereNameContains(string namePart);
 
-        //todo: summary
+        /// <summary>
+        /// returns each DPSFolder where the Name contains any of the given Strings
+        /// </summary>
+        /// <param name="nameParts">the strings the will be searched for in the name</param>
+        /// <returns>a task with an IEnumerable of DpsFolder with each folder with a match</returns>
         public Task<IEnumerable<DpsFolder>> GetAllWhereNameContains(IEnumerable<string> nameParts);
 
         /// <summary>
