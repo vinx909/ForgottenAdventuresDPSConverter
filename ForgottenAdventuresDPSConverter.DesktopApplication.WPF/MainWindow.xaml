@@ -32,12 +32,12 @@
                 <MenuItem Header="_Search"/>-->
             </MenuItem>
             <MenuItem Header="_DPS folder">
-                <MenuItem Header="_All"/>
+                <MenuItem Header="_All" Click="DpsFolderAll_Click"/>
                 <Separator/>
                 <MenuItem Header="_Search"/>
             </MenuItem>
             <MenuItem Header="_DPS subfolder">
-                <MenuItem Header="_All"/>
+                <MenuItem Header="_All" Click="DpsSubfolderAll_Click"/>
                 <Separator/>
                 <MenuItem Header="_Search"/>
             </MenuItem>

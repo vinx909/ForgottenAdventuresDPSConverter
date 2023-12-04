@@ -25,10 +25,11 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
+        private readonly IConverterService converterService;
         private readonly IFAFolderService FAFolderService;
         private readonly IFileRepositorySettings fileRepositorySettings;
 
-        public SettingsPage(IFileRepositorySettings fileRepositorySettings, IFAFolderService fAFolderService)
+        public SettingsPage(IFileRepositorySettings fileRepositorySettings, IFAFolderService fAFolderService, IConverterService converterService)
         {
             this.fileRepositorySettings = fileRepositorySettings;
 
@@ -36,6 +37,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
 
             filelocation.Text = Properties.Settings.Default.RepositoryDirectoryPath;
             FAFolderService = fAFolderService;
+            this.converterService = converterService;
         }
 
         private void UpdateForgottenAdventuresFolders(object sender, RoutedEventArgs e)
@@ -85,6 +87,14 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
                 {
                     MessageBox.Show("unable to move files, no change has been made");
                 } 
+            }
+        }
+
+        private void ConvertFiles(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(convertTargetPath.Text))
+            {
+                converterService.ConvertToDpsFolders(Properties.Settings.Default.FADownloadFolderPath, convertTargetPath.Text);
             }
         }
     }

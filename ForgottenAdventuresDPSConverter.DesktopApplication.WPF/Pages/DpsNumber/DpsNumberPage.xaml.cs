@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels.FAFoldersViewModel;
 
-namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
+namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumber
 {
     /// <summary>
     /// Interaction logic for DpsNumberPage.xaml
@@ -38,7 +38,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
 
         private void NumbersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DpsNumberEntityViewModel? selectedNumber = e.AddedItems as DpsNumberEntityViewModel;
+            DpsNumberEntityViewModel? selectedNumber = e.AddedItems[0] as DpsNumberEntityViewModel;
             if (selectedNumber != null)
             {
                 viewModel.SelectNewNumber(selectedNumber.Id);

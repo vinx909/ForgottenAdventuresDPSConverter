@@ -1,6 +1,10 @@
 ﻿using ForgottenAdventuresDPSConverter.Core.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages;
+using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DPSFolder;
+using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumber;
+using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsSubfolder;
+using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder;
 using ForgottenAdventuresDPSConverter.FileRepository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -71,6 +75,16 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
             SetMainFrameToDpsNumberPage();
         }
 
+        public void DpsFolderAll_Click(object sender, RoutedEventArgs e)
+        {
+            SetMainFrameToDpsFolderPage();
+        }
+
+        public void DpsSubfolderAll_Click(object sender, RoutedEventArgs e)
+        {
+            SetMainFrameToDpsSubfolderPage();
+        }
+
         public void Settings_Click(object sender, RoutedEventArgs e)
         {
             SetMainFrameToSettinsPage();
@@ -80,6 +94,8 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
         #region change page functionality
         private FAFolderPage fAFolderPage = null;
         private DpsNumberPage dpsNumberPage = null;
+        private DpsFolderPage dpsFolderPage = null;
+        private DpsSubfolderPage dpsSubfolderPage = null;
         private SettingsPage settingsPage = null;
         private FAFolderPage FAFolderPage {
             get
@@ -108,13 +124,37 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
                 return dpsNumberPage;
             }
         }
+        private DpsFolderPage DpsFolderPage
+        {
+            get
+            {
+                if (dpsFolderPage == null)
+                {
+                    IDpsFolderService? dpsFolderService = serviceProvider.GetService<IDpsFolderService>();
+                    dpsFolderPage = new(dpsFolderService);
+                }
+                return dpsFolderPage;
+            }
+        }
+        private DpsSubfolderPage DpsSubfolderPage
+        {
+            get
+            {
+                if (dpsSubfolderPage == null)
+                {
+                    IDpsSubfolderService? dpsSubfolderService = serviceProvider.GetService<IDpsSubfolderService>();
+                    dpsSubfolderPage = new(dpsSubfolderService);
+                }
+                return dpsSubfolderPage;
+            }
+        }
         private SettingsPage SettingsPage
         {
             get
             {
                 if(settingsPage == null)
                 {
-                    settingsPage = new(serviceProvider.GetService<IFileRepositorySettings>(), serviceProvider.GetService<IFAFolderService>());
+                    settingsPage = new(serviceProvider.GetService<IFileRepositorySettings>(), serviceProvider.GetService<IFAFolderService>(), serviceProvider.GetService<IConverterService>());
                 }
                 return settingsPage;
             }
@@ -133,6 +173,22 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
             if(mainFrame.Content == null || typeof(DpsNumberPage) != mainFrame.Content)
             {
                 mainFrame.Content = DpsNumerPage;
+            }
+        }
+
+        private void SetMainFrameToDpsFolderPage()
+        {
+            if (mainFrame.Content == null || typeof(DpsFolderPage) != mainFrame.Content)
+            {
+                mainFrame.Content = DpsFolderPage;
+            }
+        }
+
+        private void SetMainFrameToDpsSubfolderPage()
+        {
+            if (mainFrame.Content == null || typeof(DpsSubfolderPage) != mainFrame.Content)
+            {
+                mainFrame.Content = DpsSubfolderPage;
             }
         }
 

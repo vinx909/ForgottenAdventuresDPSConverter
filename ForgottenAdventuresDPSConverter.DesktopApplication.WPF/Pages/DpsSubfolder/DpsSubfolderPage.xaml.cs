@@ -16,34 +16,34 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DPSFolder
+namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsSubfolder
 {
     /// <summary>
-    /// Interaction logic for DpsFolderPage.xaml
+    /// Interaction logic for DpsSubfolderPage.xaml
     /// </summary>
-    public partial class DpsFolderPage : Page
+    public partial class DpsSubfolderPage : Page
     {
-        private readonly DpsFolderViewModel viewModel;
+        private readonly DpsSubfolderViewModel viewModel;
 
-        public DpsFolderPage(IDpsFolderService foldersService)
+        public DpsSubfolderPage(IDpsSubfolderService subfolderService)
         {
             InitializeComponent();
-            this.viewModel = new(foldersService);
+            this.viewModel = new(subfolderService);
             DataContext = viewModel;
 
-            viewModel.UpdateFolders();
+            viewModel.UpdateSubfolders();
 
-            dataFrame.Content = new DpsFolderDataPage(viewModel);
+            dataFrame.Content = new DpsSubfolderDataPage(viewModel);
         }
 
-        private void FoldersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SubfolderListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count>0)
             {
-                Core.Entities.DpsFolder? selectedNumber = e.AddedItems[0] as Core.Entities.DpsFolder;
+                Core.Entities.DpsSubfolder? selectedNumber = e.AddedItems[0] as Core.Entities.DpsSubfolder;
                 if (selectedNumber != null)
                 {
-                    viewModel.SelectNewFolder(selectedNumber.Id);
+                    viewModel.SelectNewSubfolder(selectedNumber.Id);
                 }
             }
         }

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels.FAFoldersViewModel;
 
-namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
+namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumber
 {
     /// <summary>
     /// Interaction logic for DpsNumberDataPage.xaml

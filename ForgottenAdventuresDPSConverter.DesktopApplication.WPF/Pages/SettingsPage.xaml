@@ -18,6 +18,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -33,5 +41,7 @@
         <TextBox   Grid.ColumnSpan="2"  Grid.Row="4" Name="filelocation" IsEnabled="{Binding IsChecked, ElementName=enableChangeDirectory}"/>
         <Button    Grid.ColumnSpan="2"  Grid.Row="6" Content="find files in new location" Click="FindFilesInNewLocation"/>
         <Button    Grid.ColumnSpan="2"  Grid.Row="7" Content="move files to new location" Click="MoveFilesToNewLocation"/>
+        <TextBox   Grid.ColumnSpan="2"  Grid.Row="8" Name="convertTargetPath" Text="path to conversion target"/>
+        <Button    Grid.ColumnSpan="2"  Grid.Row="9" Content="convert files" Click="ConvertFiles"/>
     </Grid>
 </Page>

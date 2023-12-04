@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
+namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder
 {
     /// <summary>
     /// Interaction logic for FAFolder.xaml

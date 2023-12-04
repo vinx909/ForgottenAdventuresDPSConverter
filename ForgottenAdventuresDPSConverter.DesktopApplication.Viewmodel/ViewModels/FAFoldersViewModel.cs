@@ -226,16 +226,21 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
                 baseFolderTasks[i].Wait();
             }//wait for each task for the basefolder to be done. this is done before the old children are cleared so it stays filled as long as possible
 
-            FATreeviewFolder.Children.Clear();//remove all the previous folders from the basefolder. todo: maybe replace this with checking if it's the same.
-
+            List<FATreeviewFolder> childeren = new();
             for (int i = 0; i < baseFolderTasks.Count(); i++)
             {
                 FATreeviewFolder folder = baseFolderTasks[i].Result;
                 if (queryFunc(folder))
                 {
-                    FATreeviewFolder.Children.Add(folder);
+                    childeren.Add(folder);
                 }
-            }//add each parentless folder to the basefolder
+            }//add each parentless folder to the child list
+
+            FATreeviewFolder.Children.Clear();//remove all the previous folders from the basefolder.
+            foreach(FATreeviewFolder child in childeren.OrderBy(c => c.Name))
+            {
+                FATreeviewFolder.Children.Add(child);
+            }//add each parentless folder to the basefolder in alphabetical order.
 
             //await updateNumbersTask;
 
@@ -267,15 +272,22 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
                     childFolderTasks.Add(baseFolderTask);
                 }//for each child create a tasks to set up their folder. add them to the list of folders that need to be done for this folder to be set up. and if there is progress reporting add them to the list so there is a count of all tasks that need to be done for the total task to be done.
 
+
+                List<FATreeviewFolder> children = new();
                 while (childFolderTasks.Count > 0)
                 {
                     FATreeviewFolder child = await childFolderTasks[0];
                     if (queryFunc(child))
                     {
-                        returnFolder.Children.Add(child);
+                        children.Add(child);
                     }
                     childFolderTasks.RemoveAt(0);
-                }//while there are tasks setting up children wait for each task to be done and add it to the children of the return folder
+                }//while there are tasks setting up children wait for each task to be done and add it to the children list
+                
+                foreach(FATreeviewFolder child in children.OrderBy(c => c.Name))
+                {
+                    returnFolder.Children.Add(child);
+                }//add each child to returnFolder children in alphabetical order
 
                 return returnFolder;//return the folder now set up with all it's children
             }
@@ -328,31 +340,57 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
 
         public void SelectNewFolder(int id)
         {
-            SelectedFolder = folderService.Get(id).Result;
-            UpdateSelectedFolderImages();
-            UpdateFolders(false);
-            UpdateSubfolders(false);
 
             EditBasicData = false;
             FolderSearchBar = string.Empty;
             SubfolderSearchBar = string.Empty;
 
-            SelectedDpsNumber = Numbers.FirstOrDefault(n => n.Id == SelectedFolder.NumberId);
-            SelectedDpsFolder = FoundFolders.FirstOrDefault(f => f.Id == SelectedFolder.FolderId);
-            SelectedDpsSubfolder = FoundSubfolders.FirstOrDefault(f => f.Id == SelectedFolder.SubfolderId);
+            UpdateFolders(false);
+            UpdateSubfolders(false);
+
+            SelectedFolder = folderService.Get(id).Result;
+            UpdateSelectedFolderImages();
+
+            int? selectedDpsNumberId = SelectedFolder.NumberId;
+            int? selectedDpsFolderId = SelectedFolder.FolderId;
+            int? selectedDpsSubfolderId = SelectedFolder.SubfolderId;
+
+            SelectedDpsNumber = Numbers.FirstOrDefault(n => n.Id == selectedDpsNumberId);
+            SelectedDpsFolder = FoundFolders.FirstOrDefault(f => f.Id == selectedDpsFolderId);
+            SelectedDpsSubfolder = FoundSubfolders.FirstOrDefault(f => f.Id == selectedDpsSubfolderId);
         }
 
         public void UpdateSelectedFolderImages()
         {
+            const int minNumberOfItems = 7;
+
             SelectedFolderImagesPaths.Clear();
-            foreach (string filePath in Directory.EnumerateFiles(settings.FADownloadFolderPath + SelectedFolder.RelativePath))
+
+            string path;
+            if(settings.FADownloadFolderPath.EndsWith('\\') && selectedFolder.RelativePath.StartsWith('\\'))
+            {
+                path = settings.FADownloadFolderPath.Trim('\\') + SelectedFolder.RelativePath;
+            }
+            else
+            {
+                path = settings.FADownloadFolderPath + SelectedFolder.RelativePath;
+            }
+            foreach (string filePath in Directory.EnumerateFiles(path))
             {
                 SelectedFolderImagesPaths.Add(filePath);
+            }
+            if(SelectedFolderImagesPaths.Count < minNumberOfItems && SelectedFolderImagesPaths.Count > 0)
+            {
+                while(SelectedFolderImagesPaths.Count < minNumberOfItems)
+                {
+                    SelectedFolderImagesPaths.Add(SelectedFolderImagesPaths[0]);
+                }
             }
         }
 
         public void UpdateFolders(bool keepSelectedFolder = true)
         {
+            #region remove old folders
             if (keepSelectedFolder)
             {
                 bool found = false;
@@ -382,18 +420,19 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
                     FoundFolders.RemoveAt(1);
                 }
             }
+            #endregion
 
             IEnumerable<DpsFolder> folders;
 
             if (string.IsNullOrWhiteSpace(FolderSearchBar))
             {
-                folders = dpsFolderService.GetAll().Result;
+                folders = dpsFolderService.GetAll().Result.OrderBy(f => f.Name);
             }
             else
             {
                 List<DpsFolder> foldersList = new();
-                foldersList.AddRange(dpsFolderService.GetAllWhereNameContains(FolderSearchBar).Result);
-                foldersList.AddRange(dpsFolderService.GetAllWhereDescriptionContains(FolderSearchBar).Result);
+                foldersList.AddRange(dpsFolderService.GetAllWhereNameContains(FolderSearchBar).Result.OrderBy(f=>f.Name));
+                foldersList.AddRange(dpsFolderService.GetAllWhereDescriptionContains(FolderSearchBar).Result.OrderBy(f => f.Name));
                 folders = foldersList;
             }
 
@@ -408,6 +447,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
 
         public void UpdateSubfolders(bool keepSelectedSubfolder = true)
         {
+            #region remove old subfolders
             if (keepSelectedSubfolder)
             {
                 bool found = false;
@@ -437,32 +477,27 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
                     FoundSubfolders.RemoveAt(1);
                 }
             }
+            #endregion
 
             IEnumerable<DpsSubfolder> subfolders;
 
-            if (string.IsNullOrWhiteSpace(SubfolderSearchBar))
+            if (string.IsNullOrWhiteSpace(FolderSearchBar))
             {
-                subfolders = dpsSubfolderService.GetAll().Result;
+                subfolders = dpsSubfolderService.GetAll().Result.OrderBy(f => f.Name);
             }
             else
             {
                 List<DpsSubfolder> subfoldersList = new();
-                subfoldersList.AddRange(dpsSubfolderService.GetAllWhereNameContains(SubfolderSearchBar).Result);
-                foreach (DpsSubfolder subfolder in dpsSubfolderService.GetAllWhereDescriptionContains(SubfolderSearchBar).Result)
-                {
-                    if(subfoldersList.FirstOrDefault(f => f.Id == subfolder.Id) == null)//check if the subfolder only if it's id is not already in the list
-                    {
-                        subfoldersList.Add(subfolder);
-                    }
-                }
+                subfoldersList.AddRange(dpsSubfolderService.GetAllWhereNameContains(SubfolderSearchBar).Result.OrderBy(f => f.Name).OrderBy(f => f.Name));
+                subfoldersList.AddRange(dpsSubfolderService.GetAllWhereDescriptionContains(SubfolderSearchBar).Result.OrderBy(f => f.Name).OrderBy(f => f.Name));
                 subfolders = subfoldersList;
             }
 
-            foreach (DpsSubfolder subfolder in subfolders)
+            foreach (DpsSubfolder folder in subfolders)
             {
-                if (FoundSubfolders.FirstOrDefault(f => f.Id == subfolder.Id) == null)
+                if (FoundSubfolders.FirstOrDefault(f => f.Id == folder.Id) == null)
                 {
-                    FoundSubfolders.Add(new(subfolder));
+                    FoundSubfolders.Add(new(folder));
                 }
             }
         }

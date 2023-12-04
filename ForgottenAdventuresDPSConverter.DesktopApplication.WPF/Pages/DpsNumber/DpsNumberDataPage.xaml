@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages"
-      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumberDataPage"
+      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumber.DpsNumberDataPage"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DpsNumberDataPage">

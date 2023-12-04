@@ -14,36 +14,33 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages
+namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DPSFolder
 {
     /// <summary>
-    /// Interaction logic for FAFolderForeignKeyPage.xaml
+    /// Interaction logic for DpsFolderDataPage.xaml
     /// </summary>
-    public partial class FAFolderForeignKeyPage : Page
+    public partial class DpsFolderDataPage : Page
     {
-        private FAFoldersViewModel viewModel;
+        private readonly DpsFolderViewModel viewModel;
 
-        public FAFolderForeignKeyPage()
-        {
-            InitializeComponent();
-        }
-
-        public FAFolderForeignKeyPage(FAFoldersViewModel viewModel)
+        public DpsFolderDataPage(DpsFolderViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;
             DataContext = viewModel;
-
         }
 
-        private void FolderSearchBarLostFocus(object sender, RoutedEventArgs e)
+        private void SaveFolder(object sender, RoutedEventArgs e)
         {
+            if (viewModel.WorkingOnNewFolder)
+            {
+                viewModel.AddFolder();
+            }
+            else
+            {
+                viewModel.UpdateFolder();
+            }
             viewModel.UpdateFolders();
-        }
-
-        private void SubfolderSearchBarLostFocus(object sender, RoutedEventArgs e)
-        {
-            viewModel.UpdateSubfolders();
         }
     }
 }

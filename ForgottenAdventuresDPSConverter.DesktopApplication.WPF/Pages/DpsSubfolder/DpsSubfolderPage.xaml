@@ -3,14 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages"
-      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsNumber.DpsNumberPage"
+      xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsSubfolder"
+      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.DpsSubfolder.DpsSubfolderPage"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DpsNumberPage">
-    
+      Title="DpsSubfolderPage">
+
     <Page.DataContext>
-        <ViewModels:DpsNumbersViewModel/>
+        <ViewModels:DpsSubfolderViewModel/>
     </Page.DataContext>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -18,10 +18,10 @@
             <ColumnDefinition Width="1*" MaxWidth="400"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding Numbers}" SelectedItem="{Binding SelectedNumber}" SelectionChanged="NumbersListBox_SelectionChanged">
+        <ListBox ItemsSource="{Binding Subfolders}" SelectedItem="{Binding SelectedSubfolder}" SelectionChanged="SubfolderListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding DisplayName}"/>
+                    <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -89,6 +89,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
             if (WorkingOnNewFolder && folderService.CanCreate(SelectedFolder).Result.CanExist)
             {
                 folderService.Create(SelectedFolder).Wait();
+                SelectedFolder = new();
                 UpdateFolders();
             }
         }

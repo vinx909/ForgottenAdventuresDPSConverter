@@ -54,7 +54,7 @@ namespace ForgottenAdventuresDPSConverter.Core.Services
             Task<bool>? containsNameTask = null;
             if(report.NameNotNullOrWhiteSpace && report.NameNotTooLong)
             {
-                containsNameTask = repository.Contains(s => s.Name.Equals(toUpdate.Name) && s.Id == toUpdate.Id);
+                containsNameTask = repository.Contains(s => s.Name.Equals(toUpdate.Name) && s.Id != toUpdate.Id);
             }
             else
             {
