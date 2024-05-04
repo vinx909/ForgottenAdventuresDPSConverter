@@ -2,6 +2,7 @@
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Entities;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.Interfaces;
 using ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;
+using ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder
     {
         private readonly FAFoldersViewModel viewModel;
 
-        public FAFolderPage(IFAFolderService fAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService, ISettingsGetter settings)
+        public FAFolderPage(IFAFolderService fAFolderService, IDpsNumberService dpsNumberService, IDpsFolderService dpsFolderService, IDpsSubfolderService dpsSubfolderService, ICommandsService commandsService, ISettingsGetter settings)
         {
             InitializeComponent();
 
@@ -35,6 +36,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder
 
             dataFrame.Content = new FAFolderDataPage(viewModel);
             foreignKeyFrame.Content = new FAFolderForeignKeyPage(viewModel);
+            commandFrame.Content = new CommandPage(new(viewModel, commandsService, settings));
         }
 
         public void FolderSelectAll()
@@ -63,6 +65,16 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder
             if(selectedFolder != null)
             {
                 viewModel.SelectNewFolder(selectedFolder.Id);
+            }
+        }
+
+        private void CopyImagepath(object sender, MouseButtonEventArgs e)
+        {
+            const char imageSourseToStringNextFolderSign = '/';
+
+            if(sender is Image image)
+            {
+                Clipboard.SetText(image.Source.ToString().Split(imageSourseToStringNextFolderSign).Last());
             }
         }
     }

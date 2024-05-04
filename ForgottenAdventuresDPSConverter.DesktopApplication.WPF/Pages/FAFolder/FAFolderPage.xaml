@@ -26,10 +26,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-
-        <TreeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding FATreeviewFolder.Children}" SelectedItemChanged="FolderTreeView_SelectedItemChanged">
+        <TreeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" ItemsSource="{Binding FATreeviewFolder.Children}" SelectedItemChanged="FolderTreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding DisplayName}"/>
@@ -38,7 +36,9 @@
         </TreeView>
         <Frame x:Name="dataFrame" Grid.Column="1" Grid.Row="0" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="foreignKeyFrame" Grid.Column="2" Grid.Row="0" NavigationUIVisibility="Hidden"/>
-        <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+        <Frame x:Name="commandFrame" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <!--
+        <ScrollViewer Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding SelectedFolderImagesPaths}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -47,7 +47,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding}">
+                        <Image Source="{Binding}" MouseLeftButtonDown="CopyImagepath">
                             <Image.Width>
                                 <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=WrapPanel}">
                                     <Binding.Converter>
@@ -67,6 +67,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        -->
         <!--
         <WrapPanel Name="ThumbnailWrapPanel" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" >
             

@@ -11,7 +11,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository
         protected readonly IFileRepositorySettings repositoryFactory;
         protected readonly static Dictionary<string, Semaphore> semaphorePerFile = new();
 
-        protected const char itemBreak = (char)31;
+        protected const char itemBreak = (char)28;
 
         #region first line content
         private const int firstLineIdentifier = -1;

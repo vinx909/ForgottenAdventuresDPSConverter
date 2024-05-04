@@ -10,6 +10,8 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
 {
     public class FAFolderRepository : IDisposable
     {
+        private const char itemBreak = (char)28;
+
         #region values to get a unique filepath
         private static int fileNumber = 20;
         private static List<int> usedFileNumbers = new();
@@ -18,7 +20,7 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
 
         #endregion
         private const string incorrectFileContentWithNoId = "this file has no identifier and should thus fail the test";
-        private static readonly string incorrectFileCententWithId = "-1" + (char)31 + "this file has identifier but should still fail the test";
+        private static readonly string incorrectFileCententWithId = "-1" + itemBreak + "this file has identifier but should still fail the test";
         #region values reused in tests
 
         #endregion
@@ -68,10 +70,10 @@ namespace ForgottenAdventuresDPSConverter.FileRepository.Test.FAFolderRepository
             }
             using (StreamWriter writer = File.CreateText(filePath))
             {
-                writer.WriteLine(""+ -1 + (char)31 + 4 + "the first line of the file will serve the purpose of keeping track of some file specific things such as the next id. the rest of the file will contain one line per folder item. this file should practically never be touched by hand as that will near quarentied create problems. this line also functions as a check to make sure the file is a file to be edited by the program and should thus not be touched.");
-                writer.WriteLine(1 + (char)31 + "Burial_and_Graves" + (char)31 + @"\Burial_and_Graves" + (char)31 + (char)31 + "False" + (char)31 + (char)31 + (char)31 + (char)31 + "False" + (char)31 + "False" + (char)31 + (char)31);
-                writer.WriteLine(2 + (char)31 + "Coffins" + (char)31 + @"\Burial_and_Graves\Coffins" + (char)31 + "1" + (char)31 + "True" + (char)31 + (char)31 + (char)31 + (char)31 + "False" + (char)31 + "False" + (char)31 + (char)31);
-                writer.WriteLine(3 + (char)31 + "Graves" + (char)31 + @"\Burial_and_Graves\Graves" + (char)31 + "1" + (char)31 + "True" + (char)31 + (char)31 + (char)31 + (char)31 + "False" + (char)31 + "False" + (char)31 + (char)31);
+                writer.WriteLine(""+ -1 + itemBreak + 4 + "the first line of the file will serve the purpose of keeping track of some file specific things such as the next id. the rest of the file will contain one line per folder item. this file should practically never be touched by hand as that will near quarentied create problems. this line also functions as a check to make sure the file is a file to be edited by the program and should thus not be touched.");
+                writer.WriteLine(1 + itemBreak + "Burial_and_Graves" + itemBreak + @"\Burial_and_Graves" + itemBreak + itemBreak + "False" + itemBreak + itemBreak + itemBreak + itemBreak + "False" + itemBreak + "False" + itemBreak + itemBreak);
+                writer.WriteLine(2 + itemBreak + "Coffins" + itemBreak + @"\Burial_and_Graves\Coffins" + itemBreak + "1" + itemBreak + "True" + itemBreak + itemBreak + itemBreak + itemBreak + "False" + itemBreak + "False" + itemBreak + itemBreak);
+                writer.WriteLine(3 + itemBreak + "Graves" + itemBreak + @"\Burial_and_Graves\Graves" + itemBreak + "1" + itemBreak + "True" + itemBreak + itemBreak + itemBreak + itemBreak + "False" + itemBreak + "False" + itemBreak + itemBreak);
             }
 
             //act

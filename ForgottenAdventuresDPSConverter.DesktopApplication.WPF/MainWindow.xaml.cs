@@ -106,8 +106,9 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
                     IDpsNumberService? dpsNumberService = serviceProvider.GetService<IDpsNumberService>();
                     IDpsFolderService? dpsFolderService = serviceProvider.GetService<IDpsFolderService>();
                     IDpsSubfolderService? dpsSubfolderService = serviceProvider.GetService<IDpsSubfolderService>();
+                    ICommandsService commandsService = serviceProvider.GetService<ICommandsService>();
                     ISettingsGetter? settings = serviceProvider.GetService<ISettingsGetter>();
-                    fAFolderPage = new FAFolderPage(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService, settings);
+                    fAFolderPage = new FAFolderPage(fAFolderService, dpsNumberService, dpsFolderService, dpsSubfolderService, commandsService, settings);
                 }
                 return fAFolderPage;
             } 

@@ -24,6 +24,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.WPF
                 .AddScoped<IDpsNumberService, DpsNumberService>()
                 .AddScoped<IDpsSubfolderService, DpsSubfolderService>()
                 .AddScoped<IFAFolderService, FAFolderService>()
+                .AddScoped<ICommandsService, CommandsService>()
                 .AddScoped<IHtmlConverter, HtmlConverter>()
                 .AddScoped<IWallConverter, WallConverter>()
                 .AddScoped<IConverterService, ConverterService>();

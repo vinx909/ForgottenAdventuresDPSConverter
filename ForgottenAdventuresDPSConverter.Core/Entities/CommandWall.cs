@@ -12,5 +12,10 @@ namespace ForgottenAdventuresDPSConverter.Core.Entities
         public int TopBottomTrim { get; set; }
         public int LeftTrim { get; set; }
         public int RightTrim { get; set; }
+
+        public CommandWall()
+        {
+            ImageName = string.Empty;
+        }
     }
 }

@@ -49,22 +49,27 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
 
         public FATreeviewFolder FATreeviewFolder { get; set; }
 
-        public FAFolder SelectedFolder { get => selectedFolder; set
+        public FAFolder SelectedFolder {
+            get => selectedFolder;
+            set
             {
                 if (value != SelectedFolder)
                 {
                     selectedFolder = value;
-                    RaiseProppertyChanged(); 
+                    RaiseProppertyChanged();
+                    RaiseProppertyChanged(nameof(SelectedFolderCommands));
                 }
             }
         }
 
-        public DpsNumberEntityViewModel SelectedDpsNumber { get => selectedDpsNumber; set
+        public DpsNumberEntityViewModel SelectedDpsNumber {
+            get => selectedDpsNumber;
+            set
             {
                 if (value != SelectedDpsNumber)
                 {
                     selectedDpsNumber = value;
-                    if (value != null && SelectedDpsFolder != null && SelectedFolder.NumberId != value.Id)
+                    if (value != null && SelectedDpsFolder != null && SelectedFolder.NumberId != value.Id) //set reference when possible and not already set.
                     {
                         SelectedFolder.NumberId = value.Id; 
                     }
@@ -73,12 +78,14 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
             }
         }
 
-        public DpsFolderEntityViewModel SelectedDpsFolder { get => selectedDpsFolder; set
+        public DpsFolderEntityViewModel SelectedDpsFolder {
+            get => selectedDpsFolder;
+            set
             {
                 if (selectedDpsFolder != value)
                 {
                     selectedDpsFolder = value;
-                    if (value != null && SelectedDpsFolder != null && SelectedFolder.FolderId != value.Id)
+                    if (value != null && SelectedDpsFolder != null && SelectedFolder.FolderId != value.Id) //set reference when possible and not already set.
                     {
                         SelectedFolder.FolderId = value.Id;
                     }
@@ -92,7 +99,7 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
                 if (selectedDpsSubfolder != value)
                 {
                     selectedDpsSubfolder = value;
-                    if (value != null && SelectedDpsFolder != null && SelectedFolder.SubfolderId != value.Id)
+                    if (value != null && SelectedDpsFolder != null && SelectedFolder.SubfolderId != value.Id) //set reference when possible and not already set.
                     {
                         SelectedFolder.SubfolderId = value.Id;
                     }
@@ -101,7 +108,32 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
             }
         }
 
-        public bool EditBasicData { get => editBasicData; set
+        public string SelectedFolderCommands
+        {
+            get
+            {
+                if (selectedFolder != null)
+                {
+                    return selectedFolder.Commands;
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
+            set
+            {
+                if(value != null && value != selectedFolder.Commands)
+                {
+                    SelectedFolder.Commands = value;
+                    RaiseProppertyChanged();
+                }
+            }
+        } //to set and change the commands of the FAFolder, to be used by the CommandViewModel
+
+        public bool EditBasicData {
+            get => editBasicData;
+            set
             {
                 if (editBasicData != value)
                 {
@@ -375,16 +407,23 @@ namespace ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModel
             {
                 path = settings.FADownloadFolderPath + SelectedFolder.RelativePath;
             }
-            foreach (string filePath in Directory.EnumerateFiles(path))
+            if (Directory.Exists(path))
             {
-                SelectedFolderImagesPaths.Add(filePath);
-            }
-            if(SelectedFolderImagesPaths.Count < minNumberOfItems && SelectedFolderImagesPaths.Count > 0)
-            {
-                while(SelectedFolderImagesPaths.Count < minNumberOfItems)
+                foreach (string filePath in Directory.EnumerateFiles(path))
                 {
-                    SelectedFolderImagesPaths.Add(SelectedFolderImagesPaths[0]);
+                    SelectedFolderImagesPaths.Add(filePath);
                 }
+                if (SelectedFolderImagesPaths.Count < minNumberOfItems && SelectedFolderImagesPaths.Count > 0)
+                {
+                    while (SelectedFolderImagesPaths.Count < minNumberOfItems)
+                    {
+                        SelectedFolderImagesPaths.Add(SelectedFolderImagesPaths[0]);
+                    }
+                }
+            }
+            else
+            {
+                //TODO something that shows the directory doesn't exist.
             }
         }
 

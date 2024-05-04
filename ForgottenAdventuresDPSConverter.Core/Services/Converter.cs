@@ -137,12 +137,32 @@ namespace ForgottenAdventuresDPSConverter.Core.Services
                                             File.Delete(newName);
                                         }
 
-                                        Bitmap origional = new Bitmap(path);
+                                        using (Bitmap origional = new(path))
+                                        {
+                                            int width = origional.Width;
+                                            int height = origional.Height;
 
-                                        int width = origional.Width;
-                                        int height = origional.Height;
+                                            //make sure the trims actually fit within the image
+                                            int leftTrim = Math.Min(wallCommand.LeftTrim, width - 1);
+                                            int rightTrim = Math.Min(wallCommand.RightTrim, height - 1 - leftTrim);
+                                            int topBottomTrim = Math.Min(wallCommand.TopBottomTrim, (height - 1) / 2);
 
-                                        origional.Clone(new Rectangle(wallCommand.LeftTrim, wallCommand.TopBottomTrim, width - wallCommand.RightTrim, height-wallCommand.TopBottomTrim), origional.PixelFormat).Save(newName);
+                                            int trimmedWidth = width - leftTrim - rightTrim;
+                                            int trimmedHeight = height - topBottomTrim * 2;
+
+                                            using (Bitmap trimmed = new(trimmedWidth, trimmedHeight))
+                                            {
+                                                using (Graphics g = Graphics.FromImage(trimmed))
+                                                {
+                                                    Rectangle sourceRect = new(leftTrim, topBottomTrim, trimmedWidth, trimmedHeight);
+                                                    Rectangle destinationRect = new(0, 0, trimmedWidth, trimmedHeight);
+
+                                                    g.DrawImage(origional, destinationRect, sourceRect, GraphicsUnit.Pixel);
+                                                }
+
+                                                trimmed.Save(newName);
+                                            }
+                                        }
 
                                         break;
                                     }

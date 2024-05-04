@@ -1,0 +1,58 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder.Commands"
+      xmlns:ViewModels="clr-namespace:ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel.ViewModels;assembly=ForgottenAdventuresDPSConverter.DesktopApplication.Viewmodel" x:Class="ForgottenAdventuresDPSConverter.DesktopApplication.WPF.Pages.FAFolder.Commands.WallCommandPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WallCommandPage">
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="image name:"/>
+        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding FileName, UpdateSourceTrigger=LostFocus}" LostFocus="UpdateSize"/>
+        <Button Grid.Column="0" Grid.Row="2" Content="save" BorderThickness="0"/>
+
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="top-bottom trim:" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding TopBottomTrim, UpdateSourceTrigger=LostFocus}" Name="textBoxBottomTrim"/>
+        <Button Grid.Column="3" Grid.Row="0" Content="auto" HorizontalAlignment="Left" Click="AutoTrimTopBottom"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="left trim:" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding LeftTrim, UpdateSourceTrigger=LostFocus}" Name="textBoxLeftTrim"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="right trim:" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding RightTrim, UpdateSourceTrigger=LostFocus}" Name="textBoxRightTrim"/>
+
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Name="previewImageGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" x:Name="previewImageRow"/>
+                <RowDefinition Height="*" x:Name="previewDoubleImageRow"/>
+                <RowDefinition Height="*" x:Name="origionalImageRow"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Name="previewImage" Margin="0,0,0,1" Source="{Binding ExampleImagePath}" SizeChanged="Image_SizeChanged" Stretch="Uniform"/>
+            <Image Grid.Column="0" Grid.Row="1" Name="previewImageNextToEachOther1" Margin="0" Source="{Binding ExampleImagePath}" HorizontalAlignment="Right" Stretch="Uniform"/>
+            <Image Grid.Column="1" Grid.Row="1" Name="previewImageNextToEachOther2" Margin="0" Source="{Binding ExampleImagePath}" HorizontalAlignment="Left" Stretch="Uniform"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Name="mousePosition"/>
+            <Image Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2  " Name="origionalImage" Margin="0" Source="{Binding Path}" MouseLeftButtonDown="MoveMouseOverImage" SizeChanged="Image_SizeChanged" Stretch="Uniform"/>
+        </Grid>
+    </Grid>
+</Page>
